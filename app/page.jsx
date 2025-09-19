@@ -9,10 +9,15 @@ export default function Home() {
   const [todos, setTodos] = useState([]);
   const [text, setText] = useState("");
   const [filterType, setFilterType] = useState("All");
-  const addTodo = (texts) => {
-    setTodos([...todos, { text: text, checked: false, id: uuidv4() }]);
-    console.log(todos);
-    setText("");
+  const addTodo = (bicig) => {
+    if (bicig !== "") {
+      setTodos([...todos, { text: bicig, checked: false, id: uuidv4() }]);
+
+      console.log(todos);
+
+      setText("");
+      setFilterType("All");
+    }
   };
   const deletion = (id) => {
     console.log("deletion working");
@@ -55,11 +60,16 @@ export default function Home() {
     });
     setTodos(newArray);
   };
+  const keyboard = (e) => {
+    if (e.key == "Enter") {
+      addTodo(e.target.value);
+    }
+  };
   return (
     <div className="flex justify-center mt-20">
       <div className="p-4 w-fit h-fit border-[red] border flex flex-col gap-10">
         <div className="flex gap-4">
-          <Input text={text} setText={setText} />
+          <Input text={text} setText={setText} keyboard={keyboard} />
           <Button
             givenFunction={() => {
               addTodo(text);
@@ -70,9 +80,15 @@ export default function Home() {
           </Button>
         </div>
         <div className="flex gap-2">
-          <Button givenFunction={showAll}>All</Button>
-          <Button givenFunction={showActive}>Active</Button>
-          <Button givenFunction={showCompleted}>Completed</Button>
+          <Button filterType={filterType} givenFunction={showAll}>
+            All
+          </Button>
+          <Button filterType={filterType} givenFunction={showActive}>
+            Active
+          </Button>
+          <Button givenFunction={showCompleted} filterType={filterType}>
+            Completed
+          </Button>
         </div>
         {filterredTodos.map((todo) => {
           return (
