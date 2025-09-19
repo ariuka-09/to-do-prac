@@ -60,7 +60,14 @@ export default function Home() {
       <div className="p-4 w-fit h-fit border-[red] border flex flex-col gap-10">
         <div className="flex gap-4">
           <Input text={text} setText={setText} />
-          <Button givenFunction={() => addTodo(text)}>Add</Button>
+          <Button
+            givenFunction={() => {
+              addTodo(text);
+              showAll();
+            }}
+          >
+            Add
+          </Button>
         </div>
         <div className="flex gap-2">
           <Button givenFunction={showAll}>All</Button>
